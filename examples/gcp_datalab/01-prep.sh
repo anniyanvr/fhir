@@ -21,21 +21,22 @@ fi
 #Create persistent hive metadata store
 
 #Reference link
-gcloud storage buckets create gs://$bucketname
+gsutil mb gs://$bucketname
 
 #Update the init script with the bucketname
 sed -i -e "s/<REPLACEME_BUCKETNAME>/$bucketname/g" ./init-scripts/datalab_fhir.sh
 
-gcloud storage cp ./init-scripts/* gs://$bucketname/scripts/
-gcloud storage ls gs://$bucketname/scripts/
+gsutil cp ./init-scripts/* gs://$bucketname/scripts/
+gsutil ls gs://$bucketname/scripts/
 
 #Create the sql database if you want to leverage an sql hive metasstore
 if [[ "$1" == "hivemeta" ]] ; then
-    gcloud storage ls gs://$hivebucketname
+    gsutil ls gs://$hivebucketname
     if [ $? -eq 0 ]; then
       echo "Bucket $hivebucketname exists and the dataproc cluster will leverage this existing bucket"
     else
-      gcloud storage buckets create gs://$hivebucketname
+      gsutil mb gs://$hivebucketname
     fi
     gcloud sql instances create $hivedbname --database-version="MYSQL_5_7" --activation-policy=ALWAYS --gce-zone $ZONE
 fi
+

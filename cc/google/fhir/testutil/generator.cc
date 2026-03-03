@@ -111,9 +111,8 @@ bool RandomValueProvider::GetBoolean(const google::protobuf::FieldDescriptor* fi
 std::string RandomValueProvider::GetBase64Binary(
     const google::protobuf::FieldDescriptor* field, int recursion_depth) {
   std::string escaped;
-  absl::Base64Escape(RandomString(kLegalStringCharacters, 1,
-                                  params_.max_string_length, bitgen_),
-                     &escaped);
+  escaped = absl::Base64Escape(RandomString(
+      kLegalStringCharacters, 1, params_.max_string_length, bitgen_));
   return escaped;
 }
 

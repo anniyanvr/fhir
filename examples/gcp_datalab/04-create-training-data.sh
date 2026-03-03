@@ -41,4 +41,4 @@ fi
 ./run_synthea Massachusetts -p 200
 
 #Copy generated data to a bucket in Google cloud storage
-gcloud storage cp ${1}/synthea/output/fhir/*.json gs://$bucketname/synthea/fhir
+gsutil -m cp ${1}/synthea/output/fhir/*.json gs://$bucketname/synthea/fhir

@@ -24,7 +24,7 @@ fi
 
 # Start wih a clean gcs folder destined for the fhir dependencies
 
-gcloud storage rm --recursive gs://$bucketname/fhir
+gsutil -m rm -r gs://$bucketname/fhir
 
 cd $(pwd)/../../
 pip install -r bazel/requirements.txt
@@ -68,9 +68,9 @@ EOT
 cp ./out-bin/py/google/fhir/seqex/*.so ./py/google/fhir/seqex/.
 
 # Finally copying over the files to the desginated gcs bucket
-gcloud storage cp --recursive proto gs://$bucketname/fhir/
-gcloud storage cp --recursive py gs://$bucketname/fhir/
-gcloud storage cp --recursive out-genfiles gs://$bucketname/fhir/
+gsutil -m cp -r proto gs://$bucketname/fhir/
+gsutil -m cp -r py gs://$bucketname/fhir/
+gsutil -m cp -r out-genfiles gs://$bucketname/fhir/
 
 # Change out of the directory
 cd examples/gcp_datalab
